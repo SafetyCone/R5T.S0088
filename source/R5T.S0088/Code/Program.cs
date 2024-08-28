@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using R5T.L0052.T001.N001.Extensions;
 using R5T.T0162;
+using R5T.T0162.Extensions;
 using R5T.T0172;
 using R5T.T0173.Extensions;
 using R5T.T0179.Extensions;
@@ -67,7 +68,7 @@ namespace R5T.S0088
                                 context.LocalRunSpecificDirectoryPath,
                                 Instances.FileNames.MissingDocumentationFileProjectFilePaths);
 
-                            Instances.FileOperator.WriteLines_Synchronous(
+                            Instances.FileOperator.Write_Lines_Synchronous(
                                 missingDocumentationFileProjectsFilePath.Value,
                                 missingDocumentationFileProjectFilePaths.Get_Values().OrderAlphabetically());
 
@@ -88,7 +89,7 @@ namespace R5T.S0088
                                 if(instance.DescriptionXml.Value is not null)
                                 {
                                     if(context.MemberDocumentationsByMemberName.TryGetValue(
-                                        instance.IdentityName,
+                                        instance.IdentityString.Value.ToIdentityName(),
                                         out var memberDocumentation))
                                     {
                                         instance.DescriptionXml = Instances.MemberElementOperator.ToString(
@@ -97,7 +98,7 @@ namespace R5T.S0088
                                     }
                                     else
                                     {
-                                        missingDocumentations.Add(instance.IdentityName);
+                                        missingDocumentations.Add(instance.IdentityString.Value.ToIdentityName());
                                     }
                                 }
                             }
@@ -106,7 +107,7 @@ namespace R5T.S0088
                                 context.LocalRunSpecificDirectoryPath,
                                 Instances.FileNames.MissingDocumentationNames);
 
-                            Instances.FileOperator.WriteLines_Synchronous(
+                            Instances.FileOperator.Write_Lines_Synchronous(
                                 missingDocumentationNamesFilePath.Value,
                                 missingDocumentations.Get_Values());
 
